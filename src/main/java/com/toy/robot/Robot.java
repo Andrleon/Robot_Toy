@@ -46,7 +46,7 @@ public class Robot {
 
     private void report() {
         reportMessage =  positionX + ", " + positionY + ", " + currentDirection;
-        System.out.println();
+        System.out.println(reportMessage);
     }
 
     private void place(String command){
@@ -56,6 +56,7 @@ public class Robot {
         positionX = Character.getNumericValue(command.charAt(6));
         positionY = Character.getNumericValue(command.charAt(8));
         currentDirection = command.substring(10);
+        System.out.println("Command is successfully executed.");
     }
 
     public void executeCommand(String command){
@@ -66,18 +67,22 @@ public class Robot {
             switch (command) {
                 case "LEFT":
                     turn(command);
+                    System.out.println("Command is successfully executed.");
                     break;
                 case "RIGHT":
                     turn(command);
+                    System.out.println("Command is successfully executed.");
                     break;
                 case "MOVE":
                     move();
+                    System.out.println("Command is successfully executed.");
                     break;
                 case "REPORT":
                     report();
+                    System.out.println("Command is successfully executed.");
                     break;
                 default:
-                    System.out.println("Incorrect command.");
+                    System.out.println("Invalid command. \nValid commands are: PLACE, MOVE, LEFT, RIGHT, REPORT and EXIT");
             }
         }
         else System.out.println("Firs command should be \"PLACE...\" "  );
@@ -87,9 +92,23 @@ public class Robot {
         Scanner scanner = new Scanner(System.in);
         String command;
 
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+        System.out.println("Toy robot simulator is started.");
+        System.out.println("Please use the following commands to control the robot: ");
+        System.out.println("-- \"PLACE X,Y,F\" - will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST.");
+        System.out.println("    This is the first valid command. After that, any sequence of commands may be issued, in any order, including another PLACE command.");
+        System.out.println("    Example:  PLACE 0,0,NORTH");
+        System.out.println("-- \"LEFT\" and \"RIGHT\" - will rotate the robot 90 degrees in the specified direction without changing the position of the robot.");
+        System.out.println("-- \"MOVE\" - will move the toy robot one unit forward in the direction it is currently facing.");
+        System.out.println("-- \"REPORT\" - will announce the X,Y and F of the robot. This can be in any form, but standard output is sufficient.");
+        System.out.println("-- \"EXIT\" - will turn off the robot.");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+
         while (true){
-            System.out.println("Enter your command");
+            System.out.println("Please enter your command");
             command = scanner.nextLine().toUpperCase();
+            if (command.equals("EXIT"))
+                    break;
             executeCommand(command);
         }
     }
