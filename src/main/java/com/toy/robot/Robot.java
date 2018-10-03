@@ -56,7 +56,7 @@ public class Robot {
         positionX = Character.getNumericValue(command.charAt(6));
         positionY = Character.getNumericValue(command.charAt(8));
         currentDirection = command.substring(10);
-        System.out.println("Command is successfully executed.");
+        System.out.println("Done");
     }
 
     public void executeCommand(String command){
@@ -67,19 +67,18 @@ public class Robot {
             switch (command) {
                 case "LEFT":
                     turn(command);
-                    System.out.println("Command is successfully executed.");
+                    System.out.println("Done");
                     break;
                 case "RIGHT":
                     turn(command);
-                    System.out.println("Command is successfully executed.");
+                    System.out.println("Done");
                     break;
                 case "MOVE":
                     move();
-                    System.out.println("Command is successfully executed.");
+                    System.out.println("Done");
                     break;
                 case "REPORT":
                     report();
-                    System.out.println("Command is successfully executed.");
                     break;
                 default:
                     System.out.println("Invalid command. \nValid commands are: PLACE, MOVE, LEFT, RIGHT, REPORT and EXIT");
