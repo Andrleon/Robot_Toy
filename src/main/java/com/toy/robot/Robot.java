@@ -12,6 +12,7 @@ public class Robot {
 
     private int positionX;
     private int positionY;
+    private String reportMessage;
     private boolean robotIsOnTable;
     private String currentDirection;
     private static final LinkedList<String> DIRECTIONS = new LinkedList<>();
@@ -44,7 +45,8 @@ public class Robot {
     }
 
     private void report() {
-        System.out.println(positionX + ", " + positionY + ", " + currentDirection);
+        reportMessage =  positionX + ", " + positionY + ", " + currentDirection;
+        System.out.println();
     }
 
     private void place(String command){
@@ -56,36 +58,44 @@ public class Robot {
         currentDirection = command.substring(10);
     }
 
+    public void executeCommand(String command){
+        if (command.matches(placeCommandChecker)){
+            place(command);
+        }
+        else if (robotIsOnTable){
+            switch (command) {
+                case "LEFT":
+                    turn(command);
+                    break;
+                case "RIGHT":
+                    turn(command);
+                    break;
+                case "MOVE":
+                    move();
+                    break;
+                case "REPORT":
+                    report();
+                    break;
+                default:
+                    System.out.println("Incorrect command.");
+            }
+        }
+        else System.out.println("Firs command should be \"PLACE...\" "  );
+    }
+
     public void startWorking(){
         Scanner scanner = new Scanner(System.in);
-        String command = "";
+        String command;
 
         while (true){
             System.out.println("Enter your command");
             command = scanner.nextLine().toUpperCase();
-            if (command.matches(placeCommandChecker)){
-                place(command);
-            }
-            else if (robotIsOnTable){
-                switch (command) {
-                    case "LEFT":
-                        turn(command);
-                        break;
-                    case "RIGHT":
-                        turn(command);
-                        break;
-                    case "MOVE":
-                        move();
-                        break;
-                    case "REPORT":
-                        report();
-                        break;
-                    default:
-                        System.out.println("Incorrect command.");
-                }
-            }
-            else System.out.println("Firs command should be \"PLACE...\" "  );
+            executeCommand(command);
         }
+    }
+
+    public String getReportMessage(){
+        return reportMessage;
     }
 }
 
