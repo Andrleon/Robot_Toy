@@ -22,17 +22,17 @@ public class Robot {
         DIRECTIONS.add("NORTH");
         DIRECTIONS.add("EAST");
         DIRECTIONS.add("SOUTH");
-        DIRECTION_MAPPING.put("WEST", new int[]{1,0});
+        DIRECTION_MAPPING.put("WEST", new int[]{-1,0});
         DIRECTION_MAPPING.put("NORTH", new int[]{0,1});
-        DIRECTION_MAPPING.put("EAST", new int[]{-1,0});
+        DIRECTION_MAPPING.put("EAST", new int[]{1,0});
         DIRECTION_MAPPING.put("SOUTH", new int[]{0,-1});
     }
 
     private void move(){
-        if (positionX < TABLE_WIDTH - 1)
-            positionX += DIRECTION_MAPPING.get(currentDirection)[0];
-        if (positionY < TABLE_LENGTH -1)
-            positionY += DIRECTION_MAPPING.get(currentDirection)[1];
+        int nextPositionX = positionX + DIRECTION_MAPPING.get(currentDirection)[0];
+        int nextPositionY = positionY + DIRECTION_MAPPING.get(currentDirection)[1];
+        positionX = (nextPositionX >= 0 && nextPositionX <= TABLE_WIDTH -1) ? nextPositionX : positionX;
+        positionY = (nextPositionY >= 0 && nextPositionY <= TABLE_LENGTH -1) ? nextPositionY : positionY;
     }
 
     private void turn(String direction){
@@ -47,6 +47,15 @@ public class Robot {
         System.out.println(positionX + ", " + positionY + ", " + currentDirection);
     }
 
+    private void place(String command){
+        if (!robotIsOnTable){
+            robotIsOnTable = true;
+        }
+        positionX = Character.getNumericValue(command.charAt(6));
+        positionY = Character.getNumericValue(command.charAt(8));
+        currentDirection = command.substring(10);
+    }
+
     public void startWorking(){
         Scanner scanner = new Scanner(System.in);
         String command = "";
@@ -55,12 +64,7 @@ public class Robot {
             System.out.println("Enter your command");
             command = scanner.nextLine().toUpperCase();
             if (command.matches(placeCommandChecker)){
-                if (!robotIsOnTable){
-                    robotIsOnTable = true;
-                }
-                positionX = Character.getNumericValue(command.charAt(6));
-                positionY = Character.getNumericValue(command.charAt(8));
-                currentDirection = command.substring(10);
+                place(command);
             }
             else if (robotIsOnTable){
                 switch (command) {
